@@ -12,13 +12,18 @@ class Book extends Component {
    render() {
 
       const { title, authors, image } = this.props
+      const style = {
+         width: 128,
+         height: 188,
+         backgroundImage: `url(${image})`
+      }
 
-      console.log("IMAGE: ", image)
+      console.log("STYLE: ", style)
 
       return (
          <div className="book">
            <div className="book-top">
-             <div className="book-cover" style={{ width: 128, height: 188, backgroundImage: {image} }}></div>
+             <div className="book-cover" style={style}></div>
              <div className="book-shelf-changer">
                <select>
                  <option value="none" disabled>Move to...</option>
@@ -30,7 +35,7 @@ class Book extends Component {
              </div>
            </div>
            <div className="book-title">{title}</div>
-           <div className="book-authors">{authors.toString()}</div>
+           <div className="book-authors">{authors.join(', ')}</div>
          </div>
       )
    }
