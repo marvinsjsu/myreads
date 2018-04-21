@@ -21,12 +21,11 @@ class Bookshelf extends Component {
                {books.map((book) => (
                   <li key={book.id}>
                      <Book
-                        title={book.title}
-                        authors={book.authors}
+
                         image={book.imageLinks.thumbnail}
                         moveMe={moveBook}
                         shelf={book.shelf}
-                        id={book.id}
+                        book={book}
                      />
                   </li>
                ))}

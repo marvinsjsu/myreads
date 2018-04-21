@@ -6,7 +6,7 @@ import BookSearch from './BookSearch'
 import './App.css'
 
 class BooksApp extends React.Component {
-  
+
   state = {
     currentlyReading: [],
     wantToRead: [],
@@ -50,6 +50,8 @@ class BooksApp extends React.Component {
     evt.preventDefault()
     const shelf = evt.target.value
 
+    console.log("TEST: ", this.state)
+
     if(book && shelf) {
       BooksAPI.update(book, shelf)
         .then((res) => {
@@ -80,6 +82,7 @@ class BooksApp extends React.Component {
             <BookSearch
               onSearch={(query) => this.searchBooks(query)}
               searchResults={this.state.searchResults}
+              moveBook={this.moveBook}
             />
           )}
         />

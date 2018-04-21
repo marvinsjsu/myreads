@@ -17,6 +17,8 @@ class BookSearch extends Component {
 
    render() {
 
+      const { moveBook } = this.props
+
       return (
          <div className="search-books">
             <div className="search-books-bar">
@@ -44,9 +46,9 @@ class BookSearch extends Component {
                {this.props.searchResults.map((book) => (
                   <li key={book.id}>
                      <Book
-                        title={book.title}
-                        authors={book.authors}
-                        image={book.imageLinks.thumbnail}
+                        moveMe={moveBook}
+                        shelf={book.shelf}
+                        book={book}
                      />
                   </li>
                ))}

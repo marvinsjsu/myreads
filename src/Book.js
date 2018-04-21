@@ -4,17 +4,17 @@ import PropTypes from 'prop-types'
 class Book extends Component {
 
     static propTypes = {
-      title: PropTypes.string.isRequired,
-      authors: PropTypes.array.isRequired,
-      image: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
       shelf: PropTypes.string.isRequired,
     }
 
+    state = {
+      currentShelf: '',
+    }
 
    render() {
 
-      const { title, authors, image, moveMe, id, shelf } = this.props
+      const { shelf, book, moveMe } = this.props
+      const defaultValue = shelf || 'none'
       const shelfOptions = [
         {
           value: 'currentlyReading', 
@@ -33,13 +33,10 @@ class Book extends Component {
           label: 'None',
         },
       ]
- 
-      this.id = id
-      console.log("THIS ID: ", this.id)
       const style = {
          width: 128,
          height: 188,
-         backgroundImage: `url(${image})`
+         backgroundImage: `url(${book.imageLinks.thumbnail})`
       }
 
       return (
@@ -47,7 +44,7 @@ class Book extends Component {
            <div className="book-top">
              <div className="book-cover" style={style}></div>
              <div className="book-shelf-changer">
-               <select onChange={(evt) => (moveMe(evt, this))} value={shelf}>
+               <select onChange={(evt) => (moveMe(evt, book))} value={defaultValue}>
                  <option value="none" disabled>Move to...</option>
                   {shelfOptions.map((shelf) => (
                     <option key={shelf.value} value={shelf.value}>{shelf.label}</option>
@@ -55,8 +52,8 @@ class Book extends Component {
                </select>
              </div>
            </div>
-           <div className="book-title">{title}</div>
-           <div className="book-authors">{authors && authors.join(', ')}</div>
+           <div className="book-title">{book.title}</div>
+           <div className="book-authors">{book.authors && book.authors.join(', ')}</div>
          </div>
       )
    }
