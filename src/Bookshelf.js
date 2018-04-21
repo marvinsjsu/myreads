@@ -21,8 +21,6 @@ class Bookshelf extends Component {
                {books.map((book) => (
                   <li key={book.id}>
                      <Book
-
-                        image={book.imageLinks.thumbnail}
                         moveMe={moveBook}
                         shelf={book.shelf}
                         book={book}

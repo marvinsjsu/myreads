@@ -32,12 +32,13 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    this.resetShelves()
+    this.resetShelvesDisplay()
   }
 
-  resetShelves = () => {
+  resetShelvesDisplay = () => {
     BooksAPI.getAll()
       .then((books) => {
+        console.log("LOAD BOOK SHELF: ", books)
         this.setState((currentState) => ({
           currentlyReading: books.filter((b) => (b.shelf === 'currentlyReading')),
           wantToRead: books.filter((b) => (b.shelf === 'wantToRead')),
@@ -46,16 +47,20 @@ class BooksApp extends React.Component {
       })    
   }
 
-  moveBook = (evt, book) => {
-    evt.preventDefault()
-    const shelf = evt.target.value
+  resetSearchDisplay = (book) => {
+    this.setState((currentState) => ({
+      searchResults: currentState.searchResults.filter((b) => {
+        return b.id !== book.id
+      })
+    }))    
+  }
 
-    console.log("TEST: ", this.state)
-
-    if(book && shelf) {
-      BooksAPI.update(book, shelf)
+  moveBook = (book, fromShelf, toShelf) => {
+    if(book && toShelf) {
+      BooksAPI.update(book, toShelf)
         .then((res) => {
-          this.resetShelves()
+          this.resetSearchDisplay(book) 
+          this.resetShelvesDisplay()
         })
     }
   }
@@ -68,8 +73,11 @@ class BooksApp extends React.Component {
     } else {
       BooksAPI.search(query)
         .then((books) => {
-          this.setState(() => ({
-            searchResults: (books.error && []) || books
+          console.log("SEARCH BOOKS: ", books)
+          this.setState((currentState) => ({
+            searchResults: (books.error && []) || books.filter((b) => {
+              return b.shelf === undefined || b.shelf === 'none'
+            })
           }))
         })
     }

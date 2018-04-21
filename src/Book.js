@@ -4,17 +4,13 @@ import PropTypes from 'prop-types'
 class Book extends Component {
 
     static propTypes = {
-      shelf: PropTypes.string.isRequired,
-    }
-
-    state = {
-      currentShelf: '',
+      book: PropTypes.object.isRequired,
     }
 
    render() {
 
       const { shelf, book, moveMe } = this.props
-      const defaultValue = shelf || 'none'
+      const defaultShelf = shelf || 'none'
       const shelfOptions = [
         {
           value: 'currentlyReading', 
@@ -44,7 +40,7 @@ class Book extends Component {
            <div className="book-top">
              <div className="book-cover" style={style}></div>
              <div className="book-shelf-changer">
-               <select onChange={(evt) => (moveMe(evt, book))} value={defaultValue}>
+               <select onChange={(evt) => (moveMe(book, shelf, evt.target.value))} value={defaultShelf}>
                  <option value="none" disabled>Move to...</option>
                   {shelfOptions.map((shelf) => (
                     <option key={shelf.value} value={shelf.value}>{shelf.label}</option>
