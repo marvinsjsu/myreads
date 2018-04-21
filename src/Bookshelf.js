@@ -11,7 +11,7 @@ class Bookshelf extends Component {
 
    render() {
 
-      const { title, books } = this.props
+      const { title, books, moveBook } = this.props
 
       return (
          <div className="bookshelf">
@@ -24,6 +24,9 @@ class Bookshelf extends Component {
                         title={book.title}
                         authors={book.authors}
                         image={book.imageLinks.thumbnail}
+                        moveMe={moveBook}
+                        shelf={book.shelf}
+                        id={book.id}
                      />
                   </li>
                ))}

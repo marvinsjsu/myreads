@@ -3,34 +3,55 @@ import PropTypes from 'prop-types'
 
 class Book extends Component {
 
-   static propTypes = {
+    static propTypes = {
       title: PropTypes.string.isRequired,
       authors: PropTypes.array.isRequired,
       image: PropTypes.string.isRequired,
-   }
+      id: PropTypes.string.isRequired,
+      shelf: PropTypes.string.isRequired,
+    }
+
 
    render() {
 
-      const { title, authors, image } = this.props
+      const { title, authors, image, moveMe, id, shelf } = this.props
+      const shelfOptions = [
+        {
+          value: 'currentlyReading', 
+          label: 'Currently Reading',
+        },
+        {
+          value: 'wantToRead', 
+          label: 'Want To Read',
+        },
+        {
+          value: 'read', 
+          label: 'Read',
+        },
+        {
+          value: 'none', 
+          label: 'None',
+        },
+      ]
+ 
+      this.id = id
+      console.log("THIS ID: ", this.id)
       const style = {
          width: 128,
          height: 188,
          backgroundImage: `url(${image})`
       }
 
-      console.log("STYLE: ", style)
-
       return (
          <div className="book">
            <div className="book-top">
              <div className="book-cover" style={style}></div>
              <div className="book-shelf-changer">
-               <select>
+               <select onChange={(evt) => (moveMe(evt, this))} value={shelf}>
                  <option value="none" disabled>Move to...</option>
-                 <option value="currentlyReading">Currently Reading</option>
-                 <option value="wantToRead">Want to Read</option>
-                 <option value="read">Read</option>
-                 <option value="none">None</option>
+                  {shelfOptions.map((shelf) => (
+                    <option key={shelf.value} value={shelf.value}>{shelf.label}</option>
+                  ))}
                </select>
              </div>
            </div>

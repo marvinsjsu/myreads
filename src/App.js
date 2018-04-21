@@ -6,6 +6,7 @@ import BookSearch from './BookSearch'
 import './App.css'
 
 class BooksApp extends React.Component {
+  
   state = {
     currentlyReading: [],
     wantToRead: [],
@@ -31,15 +32,30 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    this.resetShelves()
+  }
+
+  resetShelves = () => {
     BooksAPI.getAll()
       .then((books) => {
         this.setState((currentState) => ({
           currentlyReading: books.filter((b) => (b.shelf === 'currentlyReading')),
           wantToRead: books.filter((b) => (b.shelf === 'wantToRead')),
           read: books.filter((b) => (b.shelf === 'read')),
-
         }))
-      })
+      })    
+  }
+
+  moveBook = (evt, book) => {
+    evt.preventDefault()
+    const shelf = evt.target.value
+
+    if(book && shelf) {
+      BooksAPI.update(book, shelf)
+        .then((res) => {
+          this.resetShelves()
+        })
+    }
   }
 
   searchBooks = (query) => {
@@ -78,14 +94,17 @@ class BooksApp extends React.Component {
                 <Bookshelf
                   title="Currently Reading"
                   books={this.state.currentlyReading}
+                  moveBook={this.moveBook}
                 />
                 <Bookshelf
                   title="Want to Read"
                   books={this.state.wantToRead}
+                  moveBook={this.moveBook}
                 />
                 <Bookshelf
                   title="Read"
                   books={this.state.read}
+                  moveBook={this.moveBook}
                 />
               </div>
             </div>

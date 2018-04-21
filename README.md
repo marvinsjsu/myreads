@@ -1,7 +1,7 @@
 # MyReads Project
 
 This is a Udacity React project that helped introduced me to concepts including: Composition, Unidirectional Data Flow, React Components, JSX,
-State Management, Life Cycle, and React Router.  
+State Management, Life Cycle, the React Router, and PropTypes.  
 
 MyReads is an application that displays books categorized into three *shelves*: "Currently Reading", "Want To Read", and "Read".  It allows a user to move a book between the 3 shelves, search a book, and add a book from the search results.
 
