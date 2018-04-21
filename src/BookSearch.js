@@ -13,14 +13,10 @@ class BookSearch extends Component {
       this.setState(() => ({
          query: query.trim(),
       }))
-
-      console.log('STATE: ', this.state)
    }
 
    render() {
 
-
-      console.log('THIS PROPS: ', this.props)
       return (
          <div className="search-books">
             <div className="search-books-bar">
