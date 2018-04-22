@@ -33,6 +33,9 @@ class BooksApp extends React.Component {
     this.resetShelvesDisplay()
   }
 
+  /**
+  * @description Retrieves all book records and groups them by shelf value
+  */
   resetShelvesDisplay = () => {
     BooksAPI.getAll()
       .then((books) => {
@@ -46,6 +49,9 @@ class BooksApp extends React.Component {
       })
   }
 
+  /**
+  * @description Updates the book's shelf to it's most current value
+  */
   resetSearchDisplay = (book) => {
     this.setState((currentState) => ({
       searchResults: currentState.searchResults.map(curBook => {
@@ -57,7 +63,12 @@ class BooksApp extends React.Component {
     }))
   }
 
-  moveBook = (book, fromShelf, toShelf) => {
+  /**
+  * @description Moves the book from one shelf to another
+  * @param {Book} book
+  * @param {Bookshelf} toShelf
+  */
+  moveBook = (book, toShelf) => {
     if(book && toShelf) {
       BooksAPI.update(book, toShelf)
         .then((res) => {
@@ -68,6 +79,10 @@ class BooksApp extends React.Component {
     }
   }
 
+  /**
+  * @description Search books
+  * @param {string} query
+  */
   searchBooks = (query) => {
     if (query === '') {
       this.setState(() => ({
@@ -88,6 +103,10 @@ class BooksApp extends React.Component {
     }
   }
 
+  /**
+  * @description Helper method to get the book's shelf value
+  * @param {Book} book
+  */
   getShelf = (book) => {
     let shelfBooks = this.state.bookshelves.map(shelf => {
       return shelf.books

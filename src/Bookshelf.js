@@ -4,12 +4,12 @@ import Book from './Book'
 
 class Bookshelf extends Component {
 
-   static propTypes = {
+    static propTypes = {
       title: PropTypes.string.isRequired,
       books: PropTypes.array,
-   }
+    }
 
-   render() {
+    render() {
 
       const { title, books, moveBook } = this.props
 
@@ -31,7 +31,7 @@ class Bookshelf extends Component {
             </div>
           </div>
       )
-   }
+    }
 }
 
 export default Bookshelf
