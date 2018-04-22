@@ -13,26 +13,26 @@ class Book extends Component {
       const defaultShelf = shelf || 'none'
       const shelfOptions = [
         {
-          value: 'currentlyReading', 
+          value: 'currentlyReading',
           label: 'Currently Reading',
         },
         {
-          value: 'wantToRead', 
+          value: 'wantToRead',
           label: 'Want To Read',
         },
         {
-          value: 'read', 
+          value: 'read',
           label: 'Read',
         },
         {
-          value: 'none', 
+          value: 'none',
           label: 'None',
         },
       ]
       const style = {
          width: 128,
          height: 188,
-         backgroundImage: `url(${book.imageLinks.thumbnail})`
+         backgroundImage: `url(${(book.imageLinks && book.imageLinks.thumbnail) || ''})`
       }
 
       return (

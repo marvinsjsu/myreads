@@ -38,13 +38,12 @@ class BooksApp extends React.Component {
   resetShelvesDisplay = () => {
     BooksAPI.getAll()
       .then((books) => {
-        console.log("LOAD BOOK SHELF: ", books)
         this.setState((currentState) => ({
           currentlyReading: books.filter((b) => (b.shelf === 'currentlyReading')),
           wantToRead: books.filter((b) => (b.shelf === 'wantToRead')),
           read: books.filter((b) => (b.shelf === 'read')),
         }))
-      })    
+      })
   }
 
   resetSearchDisplay = (book) => {
@@ -52,14 +51,14 @@ class BooksApp extends React.Component {
       searchResults: currentState.searchResults.filter((b) => {
         return b.id !== book.id
       })
-    }))    
+    }))
   }
 
   moveBook = (book, fromShelf, toShelf) => {
     if(book && toShelf) {
       BooksAPI.update(book, toShelf)
         .then((res) => {
-          this.resetSearchDisplay(book) 
+          this.resetSearchDisplay(book)
           this.resetShelvesDisplay()
         })
     }
@@ -75,9 +74,7 @@ class BooksApp extends React.Component {
         .then((books) => {
           console.log("SEARCH BOOKS: ", books)
           this.setState((currentState) => ({
-            searchResults: (books.error && []) || books.filter((b) => {
-              return b.shelf === undefined || b.shelf === 'none'
-            })
+            searchResults: (books.error && []) || books
           }))
         })
     }
