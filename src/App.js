@@ -8,9 +8,6 @@ import './App.css'
 class BooksApp extends React.Component {
 
   state = {
-    currentlyReading: [],
-    wantToRead: [],
-    read: [],
     searchResults: [],
     bookshelves: [
       {
@@ -39,9 +36,11 @@ class BooksApp extends React.Component {
     BooksAPI.getAll()
       .then((books) => {
         this.setState((currentState) => ({
-          currentlyReading: books.filter((b) => (b.shelf === 'currentlyReading')),
-          wantToRead: books.filter((b) => (b.shelf === 'wantToRead')),
-          read: books.filter((b) => (b.shelf === 'read')),
+          bookshelves: currentState.bookshelves.map(shelf => ({
+            title: shelf.title,
+            shelf: shelf.shelf,
+            books: books.filter(b => b.shelf === shelf.shelf),
+          }))
         }))
       })
   }
@@ -99,21 +98,14 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Bookshelf
-                  title="Currently Reading"
-                  books={this.state.currentlyReading}
-                  moveBook={this.moveBook}
-                />
-                <Bookshelf
-                  title="Want to Read"
-                  books={this.state.wantToRead}
-                  moveBook={this.moveBook}
-                />
-                <Bookshelf
-                  title="Read"
-                  books={this.state.read}
-                  moveBook={this.moveBook}
-                />
+                {this.state.bookshelves.map(shelf => (
+                  <Bookshelf
+                    key={shelf.shelf}
+                    title={shelf.title}
+                    books={shelf.books}
+                    moveBook={this.moveBook}
+                  />
+                ))}
               </div>
             </div>
             <div className="open-search">
