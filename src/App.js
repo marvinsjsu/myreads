@@ -46,12 +46,24 @@ class BooksApp extends React.Component {
       })
   }
 
+  resetSearchDisplay = (book) => {
+    this.setState((currentState) => ({
+      searchResults: currentState.searchResults.map(curBook => {
+        if (curBook.id === book.id) {
+          curBook.shelf = book.shelf
+        }
+        return curBook
+      })
+    }))
+  }
+
   moveBook = (book, fromShelf, toShelf) => {
     if(book && toShelf) {
       BooksAPI.update(book, toShelf)
         .then((res) => {
           book.shelf = toShelf
           this.resetShelvesDisplay()
+          this.resetSearchDisplay(book)
         })
     }
   }
