@@ -8,6 +8,7 @@ import './App.css'
 class BooksApp extends React.Component {
 
   state = {
+    query: '',
     searchResults: [],
     bookshelves: [
       {
@@ -45,19 +46,11 @@ class BooksApp extends React.Component {
       })
   }
 
-  resetSearchDisplay = (book) => {
-    this.setState((currentState) => ({
-      searchResults: currentState.searchResults.filter((b) => {
-        return b.id !== book.id
-      })
-    }))
-  }
-
   moveBook = (book, fromShelf, toShelf) => {
     if(book && toShelf) {
       BooksAPI.update(book, toShelf)
         .then((res) => {
-          this.resetSearchDisplay(book)
+          book.shelf = toShelf
           this.resetShelvesDisplay()
         })
     }
@@ -66,27 +59,47 @@ class BooksApp extends React.Component {
   searchBooks = (query) => {
     if (query === '') {
       this.setState(() => ({
-        searchResults: []
+        searchResults: [],
+        query: query,
       }))
     } else {
       BooksAPI.search(query)
         .then((books) => {
-          console.log("SEARCH BOOKS: ", books)
           this.setState((currentState) => ({
-            searchResults: (books.error && []) || books
+            searchResults: (books.error && []) || books.map(curBook => {
+              curBook.shelf = this.getShelf(curBook)
+              console.log("BOOK ID", curBook.id, curBook.shelf)
+              return curBook
+            }),
+            query: query,
           }))
         })
     }
   }
 
+  getShelf = (book) => {
+    let shelfBooks = this.state.bookshelves.map(shelf => {
+      return shelf.books
+    }).reduce((arr, el) => arr.concat(el))
+
+    let match = shelfBooks.find(b => b.id === book.id)
+    return (match && match.shelf) ? match.shelf : 'None'
+  }
+
   render() {
     return (
       <div className="app">
-        <Route path='/search' render={() => (
+        <Route path='/search'
+          to={{
+            pathname: '/search',
+            state: { fromDashboard: true }
+          }}
+          render={() => (
             <BookSearch
               onSearch={(query) => this.searchBooks(query)}
               searchResults={this.state.searchResults}
               moveBook={this.moveBook}
+              query={this.state.query}
             />
           )}
         />

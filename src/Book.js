@@ -10,7 +10,7 @@ class Book extends Component {
    render() {
 
       const { shelf, book, moveMe } = this.props
-      const defaultShelf = shelf || 'none'
+      const defaultShelf = shelf || 'None'
       const shelfOptions = [
         {
           value: 'currentlyReading',
@@ -25,7 +25,7 @@ class Book extends Component {
           label: 'Read',
         },
         {
-          value: 'none',
+          value: 'None',
           label: 'None',
         },
       ]
