@@ -68,7 +68,6 @@ class BooksApp extends React.Component {
           this.setState((currentState) => ({
             searchResults: (books.error && []) || books.map(curBook => {
               curBook.shelf = this.getShelf(curBook)
-              console.log("BOOK ID", curBook.id, curBook.shelf)
               return curBook
             }),
             query: query,
